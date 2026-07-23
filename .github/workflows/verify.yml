@@ -1,0 +1,26 @@
+name: verify
+
+on:
+  pull_request:
+  push:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install "git+https://github.com/0mn1si2i5/OmniPet.git@f0fd40456f37293c40043813caad9c0ce107d3f1"
+      - run: python -m unittest discover -s tests -v
+      - run: python scripts/verify-repository.py
+      - name: Verify one-pet pull request scope
+        if: github.event_name == 'pull_request'
+        shell: bash
+        run: |
+          git diff --name-only -z "${{ github.event.pull_request.base.sha }}" > changed-paths.bin
+          python scripts/verify-pr-scope.py --paths-file changed-paths.bin
+
