@@ -10,9 +10,10 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 class CatalogTests(unittest.TestCase):
-    def test_empty_catalog_is_canonical_and_checkable(self):
+    def test_catalog_is_canonical_and_checkable(self):
         catalog = json.loads((ROOT / "catalog/index.json").read_text())
-        self.assertEqual(catalog, {"schemaVersion": 1, "pets": []})
+        self.assertEqual(catalog["schemaVersion"], 1)
+        self.assertIsInstance(catalog["pets"], list)
         subprocess.run(
             [sys.executable, "scripts/build-catalog.py", "--check"],
             cwd=ROOT,
@@ -74,4 +75,3 @@ class CatalogTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
-
