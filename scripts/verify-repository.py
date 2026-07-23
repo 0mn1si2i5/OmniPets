@@ -24,11 +24,29 @@ CREDENTIAL = re.compile(
 )
 
 
-def semver_tuple(value: str) -> tuple[int, int, int]:
-    match = re.fullmatch(r"(\d+)\.(\d+)\.(\d+)(?:[-+].*)?", value)
+def release_version(value: str) -> tuple[object, ...]:
+    match = re.fullmatch(
+        r"(\d+)\.(\d+)\.(\d+)(?:-([0-9A-Za-z.-]+))?(?:\+[0-9A-Za-z.-]+)?",
+        value,
+    )
     if match is None:
         raise ValueError("invalid version")
-    return tuple(int(item) for item in match.groups())
+    major, minor, patch, prerelease = match.groups()
+    if prerelease is None:
+        prerelease_key: tuple[object, ...] = (1,)
+    else:
+        identifiers: list[tuple[int, object]] = []
+        for identifier in prerelease.split("."):
+            if not identifier:
+                raise ValueError("invalid version")
+            if identifier.isdigit():
+                if len(identifier) > 1 and identifier.startswith("0"):
+                    raise ValueError("invalid version")
+                identifiers.append((0, int(identifier)))
+            else:
+                identifiers.append((1, identifier))
+        prerelease_key = (0, tuple(identifiers))
+    return int(major), int(minor), int(patch), prerelease_key
 
 
 def main() -> int:
@@ -69,7 +87,7 @@ def main() -> int:
                 )
                 if previous.returncode == 0:
                     old = json.loads(previous.stdout)
-                    if semver_tuple(release["version"]) < semver_tuple(old["version"]):
+                    if release_version(release["version"]) < release_version(old["version"]):
                         raise ValueError("pet version regressed")
         subprocess.run(
             [sys.executable, str(root / "scripts/build-catalog.py"), "--root", str(root), "--check"],
@@ -100,4 +118,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

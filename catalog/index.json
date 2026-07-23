@@ -3,7 +3,7 @@
     {
       "displayName": "SuShi",
       "files": {
-        "LICENSE-ASSETS": "sha256:460f4c0ce5923063860d73b836eb2d417aed1a387a264c951e830a48a084606f",
+        "LICENSE-ASSETS": "sha256:61eb8627e72b30b9dd565cc9b597a956067ee818a1e15bba18c9503c43aa071f",
         "README.md": "sha256:7bcaded2d05adae987275adf80f063510dec17d5ba36ee36c53fa3828118c440",
         "README.zh-CN.md": "sha256:ec6b6a85b0e2804611f51ba18146ddfd155d961cb2542e47993b048dd8191183",
         "pet.json": "sha256:842b5726d2d4414ebe1500019a7305c222229ea5a11272c4cc2ec0c66fab67ce",
@@ -17,7 +17,7 @@
         "preview": "pets/sushi/preview.webp",
         "spritesheet": "pets/sushi/spritesheet.webp"
       },
-      "releaseSha256": "sha256:58628e3c24c443ca2606905b8ea2af9412319ffe96042889ca70779e8645cd95",
+      "releaseSha256": "sha256:900aaaae316565b1150800cc3a554ef8f1fe6d2e89791b41667af90df523c183",
       "spriteVersionNumber": 2,
       "version": "1.0.0"
     }
