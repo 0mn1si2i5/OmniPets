@@ -14,7 +14,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - run: python -m pip install "git+https://github.com/0mn1si2i5/OmniPet.git@f0fd40456f37293c40043813caad9c0ce107d3f1"
+      - run: python -m pip install "git+https://github.com/0mn1si2i5/OmniPet.git@f2137e74b81f5658be6bcac46574c435354b7f7d"
       - run: python -m unittest discover -s tests -v
       - name: Verify public repository
         shell: bash
